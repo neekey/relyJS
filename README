@@ -1,21 +1,21 @@
+##API https://github.com/neekey/relyJS/wiki
+
+##Description
 relyJS is used to load resources, and provides a simple way to import other script files within script file!
 
 This project is developed to solve the problem I encountered in my html5 game-project, which is i have to finished loading all the resource the game need.
 
 This project can be used to load the script files, plain data files (html, css, json), images, etc.
 
-simple example:
-$r.load( { 
-	url: ['a.js', 'http://neekey.net/bg.png', '../html/b.html' ], 
-	callback: function( module, userData ){}
-});
+##Simple example:
+	$r.load( { 
+		url: ['a.js', 'http://neekey.net/bg.png', '../html/b.html' ], 
+		callback: function( module, userData ){}
+	});
 
 alse we can import other resource like we do in JAVA or C++, simple like this:
 
 in a.js file :
 	$r._rely(['b.js', '../c.js']);
-	/*
-		main code in a.js
-	*/
+	/* main code in a.js */
 	
-For more information about the api being written...
