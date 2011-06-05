@@ -595,7 +595,7 @@ var pri = {
 	 */
 	updateRcuList: function(){
 		var i, j, finished = true, s, a,
-		callback;
+		callback, userData;
 		
 		// tranverse url list
 		for( i = 0; this.rcuList[ i ]; i++ ){
@@ -625,13 +625,19 @@ var pri = {
 					}
 				}
 				
-				// callback
-				if( this.rcuList[ i ].callback ){
-					// pass module data to callback, an set context to window
-					this.rcuList[ i ].callback.call( window, this.moduleList[ a ], this.rcuList[ i ].userData );
-				}
+				// backup callback and userData
+				callback = this.rcuList[ i ].callback;
+				userData = this.rcuList[ i ].userData;
+				
 				// remove rcu
 				this.rcuList.splice( i, 1 );
+				
+				// callback
+				if( callback ){
+					// pass module data to callback, an set context to window
+					callback.call( window, this.moduleList[ a ], userData );
+				}
+				
 				i--;
 				this.log( 'info', 'a rcuList finished loading !' );
 			}
