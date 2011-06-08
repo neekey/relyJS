@@ -196,14 +196,17 @@ var pri = {
 	
 	/**
 	 * configuration for the framework
-	 * rely: 'relay'
-	 * scriptSuffix: ['js']
-	 * imageSuffix: ['png', 'gif', 'jpg', 'bmp']
+	 * 	scriptSuffix: ['js']
+	 *	dataSuffix: ['json', 'hmtl'],
+	 * 	imageSuffix: ['png', 'gif', 'jpg', 'bmp']
+	 * 	log: true
 	 */
 	config: {
 		scriptSuffix: ['js'],
 		dataSuffix: ['json', 'hmtl'],
-		imageSuffix: ['png', 'gif', 'jpg', 'bmp']
+		imageSuffix: ['png', 'gif', 'jpg', 'bmp'],
+		/* if log info to console */
+		log: true
 	},
 	
 	/**
@@ -279,7 +282,7 @@ var pri = {
 	 */
 	log: function( type, info ){
 		this.logList.push( [ type, info ] );
-		if( console && console.log ){
+		if( console && console.log && this.config.log ){
 			console.log( '[ ' + type + ' ] ' + info );
 		}
 	},
@@ -770,7 +773,7 @@ $r.rely = function( rely ) {
 $r.config = function( cfg ) {
 	var i;
 	for( i in cfg ){
-		if( i == 'scriptSuffix' || i == 'dataSuffix' || i == 'imageSuffix' ){
+		if( i == 'scriptSuffix' || i == 'dataSuffix' || i == 'imageSuffix' || i == 'log' ){
 			pri.config[ i ] = cfg[ i ];
 		}
 	}
