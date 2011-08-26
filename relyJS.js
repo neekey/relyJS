@@ -1,8 +1,7 @@
 ﻿/**
- * relyJS
- * @version 0.0.20110604
+ * reqJS
  * @author Neekey <ni184775761@gmail.com>
- * @description a imporved version of importJS
+ * @description based on relyJS, import module in a nodejs way!
  */
 
 (function() {
