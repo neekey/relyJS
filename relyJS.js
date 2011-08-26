@@ -518,6 +518,8 @@ var pri = {
 		}
 
 		// 获取require模块
+		// require同时也是rely，所以要添加到relyList中
+		// 同时添加到requireList中，标记
 		var REQ_EX = /\$r\s*\.\s*require\s*\(\s*['"]([\w\.\/]*)['"]\s*\)/g,
 		reqStr, reqList;
 		while(  reqStr = REQ_EX.exec( data ) ){
@@ -532,8 +534,6 @@ var pri = {
 				relyList.push( reqStr + '.js' );
 			}
 		}
-		
-
 		return relyList
 	},
 	
@@ -849,8 +849,14 @@ $r.getModule = function( name ){
 	else return false;
 };
 
+/**
+ * 记录模块方法
+ */
 $r._requireModules = {};
 
+/**
+ * 导入模块，只能在js文件中被使用(这个js文件需要以$load的方式被载入)
+ */
 $r.require = function( mName ){
 	return this._requireModules[ pri.requireList[ mName ] ]();
 };
