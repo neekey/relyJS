@@ -1,5 +1,8 @@
+var d = $r.require('d');
 var hello = function(){
-	console.log( 'hello !');
+	console.log( 'hello from module b');
 };
-exports.test = hello;
+
+exports.hello = hello;
+exports.other_hello = d.hello;
 
