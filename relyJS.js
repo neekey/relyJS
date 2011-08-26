@@ -270,6 +270,8 @@ var pri = {
 	 * else the module name will be automatically generated, such as 'module_1'
 	 */
 	moduleList: {},
+
+	requireList: {},
 	
 	/**
 	 * used for generate module alias
@@ -363,7 +365,7 @@ var pri = {
 	
 		var t = userData.type,
 		u = userData.url,
-		i, j, k, relyList, relyTag = false, alias;
+		i, j, k, relyList, relyTag = false, alias, reqName;
 		
 		if( !err ){
 			this.log( 'info', 'resource loaded: ' + u );
@@ -374,7 +376,14 @@ var pri = {
 				// handle url to absolute, and get alias
 				for( i = 0; relyList[ i ]; i++ ){
 					alias = this.getAlias( relyList[ i ] );
+					reqName = relyList[ i ].substring( 0, relyList[ i ].indexOf('.js') );
+					if( reqName in this.requireList ){
+						this.requireList[ reqName ] = util.handleUrl( relyList[ i ], u );
+						this.requireList[ this.requireList[ reqName ] ] = {};
+					}
+					
 					relyList[ i ] = util.handleUrl( relyList[ i ], u );
+
 					if( alias != '' ){
 						this.aliasList[ alias ] = relyList[ i ];
 					}
@@ -413,6 +422,12 @@ var pri = {
 		else {
 			this.errorHandle( 'warning', 'resource load failed: ' + u );
 		}
+		
+		// 若当前文件为一个模块，则处理
+		if( u in this.requireList ){
+			data = this.handleRequireData( data, u );
+		}
+
 		// remove from loadingList
 		delete this.loadingList[ u ];
 		// add to finishedList
@@ -427,6 +442,10 @@ var pri = {
 		this.updateRcuList();
 	},
 	
+	handleRequireData: function( data, url ){
+		return "$r._requireModules['" + url + "'] = function(){ var exports = {}; \r\n" + data +
+			"\r\n return exports; }";
+	},
 	/**
 	 * get resource type by analysize url
 	 * @param {String} url
@@ -489,12 +508,32 @@ var pri = {
 		var EX = /\$r\s*\.\s*_rely\s*\(\s*\[\s*([\w\.,'"\s]+)\s*\]\s*\)/,
 		relyStr = EX.exec( data ), relyList;
 		if( !relyStr ){
-			return [];
+			relyList = [];
 		}
-		relyStr = relyStr[ 1 ];
-		// Remove all the spaces and all quotes
-		relyStr = relyStr.replace( /['"\s]/g, '' );
-		relyList = relyStr.split( /,/ );
+		else {
+			relyStr = relyStr[ 1 ];
+			// Remove all the spaces and all quotes
+			relyStr = relyStr.replace( /['"\s]/g, '' );
+			relyList = relyStr.split( /,/ );
+		}
+
+		// 获取require模块
+		var REQ_EX = /\$r\s*\.\s*require\s*\(\s*['"]([\w\.\/]*)['"]\s*\)/g,
+		reqStr, reqList;
+		while(  reqStr = REQ_EX.exec( data ) ){
+			if( !reqStr ){
+				return relyList;
+			}
+
+			reqStr = reqStr[ 1 ];
+			if( reqStr && reqStr != '' ){
+				// 添加到模块列表中
+				this.requireList[ reqStr ] = {};
+				relyList.push( reqStr + '.js' );
+			}
+		}
+		
+
 		return relyList
 	},
 	
@@ -810,6 +849,11 @@ $r.getModule = function( name ){
 	else return false;
 };
 
+$r._requireModules = {};
+
+$r.require = function( mName ){
+	return this._requireModules[ pri.requireList[ mName ] ]();
+};
 /**
  * this function does nothing, 
  * just a Identifier for you to import other resource in a resource
@@ -825,3 +869,4 @@ $r.log = function(){
 }
  
 })();
+
