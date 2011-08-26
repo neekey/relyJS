@@ -1,5 +1,28 @@
 ##API https://github.com/neekey/relyJS/wiki
 
+##reqJS UPDATE
+添加了和nodejs同样的方式来导入模块
+
+1. 导入模块
+
+	var module = $r.require('moduleName')
+
+2. 模块写法
+
+	var hello = function(){
+		console.log('hello!');
+	};
+	exports.hello = hello;
+
+3. 只能在以 $r.load 方法载入的js文件中使用 $r.require 方法
+
+4. 之前嵌套模块导入
+
+5. 包管理在研发中= =
+
+6. 具体见test文件夹中的简单demo
+  
+
 ##Description
 relyJS is used to load resources, and provides a simple way to import other script files within script file!
 
