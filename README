@@ -1,26 +1,26 @@
-##API https://github.com/neekey/relyJS/wiki
+ï»¿##API https://github.com/neekey/relyJS/wiki
 
 ##reqJS UPDATE
-Ìí¼ÓÁËºÍnodejsÍ¬ÑùµÄ·½Ê½À´µ¼ÈëÄ£¿é
+æ·»åŠ äº†å’ŒnodejsåŒæ ·çš„æ–¹å¼æ¥å¯¼å…¥æ¨¡å—
 
-1. µ¼ÈëÄ£¿é
+1. å¯¼å…¥æ¨¡å—
 
 	var module = $r.require('moduleName')
 
-2. Ä£¿éĞ´·¨
+2. æ¨¡å—å†™æ³•
 
 	var hello = function(){
 		console.log('hello!');
 	};
 	exports.hello = hello;
 
-3. Ö»ÄÜÔÚÒÔ $r.load ·½·¨ÔØÈëµÄjsÎÄ¼şÖĞÊ¹ÓÃ $r.require ·½·¨
+3. åªèƒ½åœ¨ä»¥ $r.load æ–¹æ³•è½½å…¥çš„jsæ–‡ä»¶ä¸­ä½¿ç”¨ $r.require æ–¹æ³•
 
-4. Ö®Ç°Ç¶Ì×Ä£¿éµ¼Èë
+4. ä¹‹å‰åµŒå¥—æ¨¡å—å¯¼å…¥
 
-5. °ü¹ÜÀíÔÚÑĞ·¢ÖĞ= =
+5. åŒ…ç®¡ç†åœ¨ç ”å‘ä¸­= =
 
-6. ¾ßÌå¼ûtestÎÄ¼ş¼ĞÖĞµÄ¼òµ¥demo
+6. å…·ä½“è§testæ–‡ä»¶å¤¹ä¸­çš„ç®€å•demo
   
 
 ##Description
